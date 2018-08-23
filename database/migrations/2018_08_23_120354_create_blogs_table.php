@@ -23,6 +23,8 @@ class CreateBlogsTable extends Migration
             $table->boolean('status')->default(0);
             $table->text('meta_description');
             $table->text('content');
+            $table->integer('category_id')->nullable()->unsigned();
+            $table->foreign('category_id')->references('id')->on('blog_categories');
             $table->timestamps();
         });
     }

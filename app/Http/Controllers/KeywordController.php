@@ -4,82 +4,93 @@ namespace App\Http\Controllers;
 
 use App\Keyword;
 use Illuminate\Http\Request;
+use Validator;
 
 class KeywordController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function __construct()
     {
-        //
+        $this->middleware('auth');
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        // Validate the data
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:191',
+        ]);
+
+        $errors = $validator->errors();
+
+        if ($validator->fails()) {
+            return redirect()->route('admin.blogs.index')
+                ->withErrors($errors)
+                ->withInput();
+        }
+
+        $keywords = new Keyword;
+
+
+        // Store in the database
+
+        $keywords->name = $request->name;
+
+        $keywords->save();
+
+        // redirect to another page
+
+        return redirect()->route('admin.blogs.index')->with('success', 'The keyword was succesfully save!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Keyword  $keyword
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Keyword $keyword)
+    public function edit(Request $request, $id)
     {
-        //
+        $keyword = Keyword::find($id);
+
+        // redirect to another page
+
+        return view('admin.blogs.keyword_edit')->with('keyword', $keyword);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Keyword  $keyword
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Keyword $keyword)
+    public function update(Request $request, $id)
     {
-        //
+        // Validate the data
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:191',
+        ]);
+
+        $errors = $validator->errors();
+
+        if ($validator->fails()) {
+            return redirect()->route('admin.blogs_category.edit')
+                ->withErrors($errors)
+                ->withInput();
+        }
+
+        $keyword = Keyword::find($id);
+
+
+        // Save the data to the database
+        $keyword->name = $request->name;
+
+        $keyword->update();
+
+        // redirect with flash data to cards.show
+
+
+        return redirect()->route('admin.blogs.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Keyword  $keyword
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Keyword $keyword)
+    public function destroy($id)
     {
-        //
-    }
+        $keywords = Keyword::all();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Keyword  $keyword
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Keyword $keyword)
-    {
-        //
+        Keyword::destroy($id);
+
+        return redirect()->route('admin.blogs.index')
+            ->with('keywords', $keywords)->with('success', 'The tag was succesfully deleted!');
     }
 }

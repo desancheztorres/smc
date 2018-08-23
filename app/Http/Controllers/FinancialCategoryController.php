@@ -4,82 +4,63 @@ namespace App\Http\Controllers;
 
 use App\FinancialCategory;
 use Illuminate\Http\Request;
+use Validator;
+use Session;
+use Image;
+use Storage;
+
 
 class FinancialCategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct()
     {
-        //
-    }
+        $this->middleware('auth');
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        // Validate the data
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:191',
+        ]);
+
+        $errors = $validator->errors();
+
+        if ($validator->fails()) {
+            return redirect()->route('admin.financials.index')
+                ->withErrors($errors)
+                ->withInput();
+        }
+
+        $financialCategory = new FinancialCategory;
+
+        // Store in the database
+
+        $financialCategory->name = $request->name;
+
+        $financialCategory->save();
+
+        // redirect to another page
+
+        return redirect()->route('admin.financials.index')->with('success', 'The financial category was succesfully save!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\FinancialCategory  $financialCategory
-     * @return \Illuminate\Http\Response
-     */
-    public function show(FinancialCategory $financialCategory)
+
+    public function update(Request $request)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\FinancialCategory  $financialCategory
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(FinancialCategory $financialCategory)
+    public function destroy($id)
     {
-        //
-    }
+        $financialCategory = FinancialCategory::find($id);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\FinancialCategory  $financialCategory
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, FinancialCategory $financialCategory)
-    {
-        //
-    }
+        $financialCategory::destroy($id);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\FinancialCategory  $financialCategory
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(FinancialCategory $financialCategory)
-    {
-        //
+        return redirect()->route('admin.financials.index')
+            ->with('success', 'The category was succesfully deleted!');
+
+
     }
 }

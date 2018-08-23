@@ -1,0 +1,124 @@
+/*
+Theme Name: Brandon
+Theme URI: http://themes.muffingroup.com/brandon
+Author: Muffin group
+Author URI: http://muffingroup.com
+Description: Brandon - Premium WordPress Theme.
+License: GNU General Public License version 3.0
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
+Tags: one-column, two-columns, left-sidebar, right-sidebar, fixed-width, custom-background, custom-header, custom-menu, editor-style, featured-image-header, featured-images, post-formats, theme-options, translation-ready
+Version: 1.8.4
+*/
+
+@import url("base.css");
+
+@import url("animate.min.css");
+@import url("buttons.css");
+@import url("fonts.css");
+@import url("isotope.css");
+
+@import url("grid.css");
+@import url("layout.css");
+@import url("shortcodes.css");
+@import url("variables.css");
+
+.row .textBlogs {
+    color: #4B4443;
+    text-align: justify;
+}
+
+
+/* If you want to add your own css code, please do it in css/custom.css */
+
+section#footer{
+    padding-top: 35px;
+    padding-bottom: 30px;
+    background: #384554;
+
+}
+
+.container{
+    margin-bottom: 20px;
+}
+
+.content {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 1500px;
+    height: 100%;
+    padding: 0 20px;
+}
+
+
+.tab{
+    margin-left: 50px;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    display: block;
+    color: white;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 20px 0;
+    font-size: 14px!important;
+    font-weight: 500;
+    margin: 0;
+    width: 200px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    text-decoration: underline;
+}
+
+/* Create an active/current "tab button" class */
+.tab button.active {
+    text-decoration: underline;
+}
+
+/* Style the tab content */
+.tabcontent {
+    padding: 20px 0;
+    margin-left: 10px;
+}
+
+.tabcontent a{
+    color: white;
+}
+
+.tabcontent a:hover{
+    color: white;
+}
+
+.tabcontent p{
+    /*text-align: center;*/
+}
+
+a.button:after, a.tp-button:after, button:after, input[type="submit"]:after, input[type="reset"]:after, input[type="button"]:after {
+    background: none!important;
+}
+
+.image-blog{
+    width: 800px;
+    text-align: center;
+}
+
+.blogs h4{
+    margin-top: 20px;
+}
+
+.pt-5{
+    margin-top: 50px;
+}
+
+.pt-3{
+    margin-top: 30px;
+}
+
+.panel-body{
+    padding: 50px!important;
+}

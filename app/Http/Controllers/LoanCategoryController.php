@@ -4,82 +4,100 @@ namespace App\Http\Controllers;
 
 use App\LoanCategory;
 use Illuminate\Http\Request;
+use Validator;
+use Session;
+use Image;
+use Storage;
+
 
 class LoanCategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware('auth');
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('admin.loans_category.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function edit($id) {
+
+        $loanCategory = LoanCategory::find($id);
+
+        return view('admin.loans.category_edit')
+            ->with('loanCategory', $loanCategory);
+    }
+
     public function store(Request $request)
     {
-        //
+        // Validate the data
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:191',
+        ]);
+
+        $errors = $validator->errors();
+
+        if ($validator->fails()) {
+            return redirect()->route('admin.loans.index')
+                ->withErrors($errors)
+                ->withInput();
+        }
+
+        $loansCategory = new LoanCategory;
+
+        // Store in the database
+
+        $loansCategory->name = $request->name;
+
+        $loansCategory->save();
+
+        // redirect to another page
+
+        return redirect()->route('admin.loans.index')->with('success', 'The loan category was succesfully save!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\LoanCategory  $loanCategory
-     * @return \Illuminate\Http\Response
-     */
-    public function show(LoanCategory $loanCategory)
+    public function update(Request $request, $id)
     {
-        //
+        // Validate the data
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:191',
+        ]);
+
+        $errors = $validator->errors();
+
+        if ($validator->fails()) {
+            return redirect()->route('admin.loans.edit')
+                ->withErrors($errors)
+                ->withInput();
+        }
+
+        $loanCategory = LoanCategory::find($id);
+
+
+        // Save the data to the database
+        $loanCategory->name = $request->name;
+
+        $loanCategory->update();
+
+
+        return redirect()->route('admin.loans.index')
+            ->with('success', 'The category was succesfully updated!');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\LoanCategory  $loanCategory
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(LoanCategory $loanCategory)
+    public function destroy($id)
     {
-        //
-    }
+        $loanCategory = LoanCategory::find($id);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\LoanCategory  $loanCategory
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, LoanCategory $loanCategory)
-    {
-        //
-    }
+        $loanCategory::destroy($id);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\LoanCategory  $loanCategory
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(LoanCategory $loanCategory)
-    {
-        //
+        return redirect()->route('admin.loans.index')
+            ->with('success', 'The category was succesfully deleted!');
+
+
     }
 }

@@ -9,10 +9,10 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-header d-flex align-items-center">
-                            <h3 class="h4">Edit - {{ $financial->name }}</h3>
+                            <h3 class="h4">Add new Financial Card</h3>
                         </div>
                         <div class="card-body">
-                            @include('admin.financials.partials.edit')
+                            @include('admin.financials.partials.create')
                         </div>
                     </div>
                 </div>
@@ -23,5 +23,5 @@
 @endsection
 
 @section('js')
-    @include('admin.cards.partials.form_validation_rules')
+    @include('admin.blogs.partials.form_validation_rules')
 @endsection

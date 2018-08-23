@@ -1,4 +1,4 @@
-{!! Form::open(['route' => 'admin.loans.store', 'data-parsley-validate' => '', 'files' => 'true']) !!}
+{!! Form::model($loan, ['route' => ['admin.loans.update', $loan->id], 'method' => 'PUT', 'files' => 'true']) !!}
 <div class="row">
     <div class="col">
         @if ($errors->any())
@@ -71,7 +71,7 @@
         <div class="form-group">
             {{ Form::label('category_id', 'Category:') }}
             <select name="category_id" id="category_id" class="form-control">
-                @foreach($loanCategories as $category)
+                @foreach($categoryLoans as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
             </select>
@@ -100,7 +100,7 @@
 </div>
 <div class="row">
     <div class="col">
-        {{ Form::submit('Create Loan', array('class' => 'btn btn-success')) }}
+        {{ Form::submit('Update Loan', array('class' => 'btn btn-success')) }}
     </div>
 </div>
 {!! Form::close() !!}

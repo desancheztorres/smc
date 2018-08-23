@@ -3,6 +3,8 @@
 use App\Blog;
 use App\Tag;
 use App\Card;
+use App\Financial;
+
 
 // Blog
 
@@ -37,10 +39,20 @@ if (! function_exists('deleteBlogKeywords')) {
 
 // Cards
 
+if (! function_exists('getFinancialsByCategory')) {
+    function getFinancialsByCategory($id) {
+        $financials = Financial::where('category_id', $id)->get();
+
+        return $financials;
+    }
+}
+
+// Financials
+
 if (! function_exists('getCardsByCategory')) {
     function getCardsByCategory($id) {
-        $cards = Card::where('category_id', $id)->get();
+        $financials = Financial::where('category_id', $id)->get();
 
-        return $cards;
+        return $financials;
     }
 }

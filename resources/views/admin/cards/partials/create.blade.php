@@ -86,19 +86,19 @@
     <div class="col">
         <div class="form-group">
             {{ Form::label('info1', 'Info 1:') }}
-            {{ Form::textarea('info1', null, array('class' => 'form-control tiny' , 'required' => '')) }}
+            {{ Form::textarea('info1', null, array('class' => 'form-control' , 'required' => '')) }}
         </div>
     </div>
     <div class="col">
         <div class="form-group">
             {{ Form::label('info2', 'Info 2:') }}
-            {{ Form::textarea('info2', null, array('class' => 'form-control tiny' , 'required' => '')) }}
+            {{ Form::textarea('info2', null, array('class' => 'form-control' , 'required' => '')) }}
         </div>
     </div>
     <div class="col">
         <div class="form-group">
             {{ Form::label('example', 'Example:') }}
-            {{ Form::textarea('example', null, array('class' => 'form-control tiny' , 'required' => '')) }}
+            {{ Form::textarea('example', null, array('class' => 'form-control' , 'required' => '')) }}
         </div>
     </div>
 </div>

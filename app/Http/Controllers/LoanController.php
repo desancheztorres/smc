@@ -37,7 +37,7 @@ class LoanController extends Controller
         $categoryLoans = LoanCategory::all();
         $loans = Loan::all();
         $all_loans = Loan::count();
-        $all_categoryLoans = Loan::count();
+        $all_categoryLoans = LoanCategory::count();
 
         return view('admin.loans.index')
             ->with('categoryLoans', $categoryLoans)

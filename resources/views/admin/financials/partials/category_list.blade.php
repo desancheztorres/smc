@@ -1,4 +1,4 @@
-@if(count($categoryLoans))
+@if(count($categoryFinancials))
     <div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead>
@@ -10,12 +10,12 @@
             </thead>
             <tbody>
             <?php $i=1; ?>
-            @foreach($categoryLoans as $category)
+            @foreach($categoryFinancials as $category)
                 <tr>
                     <td><?php echo $i; ?></td>
                     <td>{{ $category->name }}</td>
                     <td>
-                        <a href="{{ route('admin.loans_category.edit', $category->id) }}" class="btn btn-info btn-sm">
+                        <a href="{{ route('admin.financials_category.edit', $category->id) }}" class="btn btn-info btn-sm">
                             <i class="far fa-edit"></i>
                         </a>
                         <a href="#" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#category{{$category->id}}">
@@ -35,10 +35,16 @@
                             </div>
                             <div class="modal-body">
                                 <h6>Are you sure you want to delete {{$category->name}}?</h6>
+                                <p>If you delete {{ $category->name }} all the cards which are in there will be deleted.</p>
+                                <ul>
+                                    @foreach(getFinancialsByCategory($category->id) as $financials)
+                                        <li>{{ $financials->name }}</li>
+                                    @endforeach
+                                </ul>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-info btn-sm" data-dismiss="modal">Close</button>
-                                {!! Form::open(['route' => ['admin.loans_category.destroy', $category->id], 'method' => 'DELETE']) !!}
+                                {!! Form::open(['route' => ['admin.financials_category.destroy', $category->id], 'method' => 'DELETE']) !!}
 
                                 {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
 

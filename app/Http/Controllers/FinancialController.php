@@ -18,29 +18,31 @@ class FinancialController extends Controller
         $this->middleware('auth');
 
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $categoryFinancials = FinancialCategory::all();
-        $financials = Financial::paginate(5);
+        $financials = Financial::all();
         $all_financials = Financial::count();
+        $all_categoryFinancials = FinancialCategory::count();
 
         return view('admin.financials.index')
             ->with('categoryFinancials', $categoryFinancials)
             ->with('financials', $financials)
-            ->with('all_financials', $all_financials);
+            ->with('all_financials', $all_financials)
+            ->with('all_categoryFinancials', $all_categoryFinancials);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
+    public function create()
+    {
+        $financialsCategories = FinancialCategory::all();
+
+        return view('admin.financials.create')
+            ->with('financialCategories', $financialsCategories);
+    }
+
+
     public function store(Request $request)
     {
         // Validate the data
@@ -103,49 +105,29 @@ class FinancialController extends Controller
 
         // redirect to another page
 
-        return redirect()->route('admin.financials.index')->with('success', 'The financial was succesfully save!');
+        return redirect()->route('admin.financials.index')->with('success', 'The Financial was succesfully save!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Loan  $loan
-     * @return \Illuminate\Http\Response
-     */
+
     public function show()
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Loan  $loan
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
+        $financials = Financial::find($id);
         $categoryFinancials = FinancialCategory::all();
-        $financial = Financial::find($id);
-        $cats = array();
-
-        foreach ($categoryFinancials as $category) {
-            $cats[$category->id] = $category->name;
-        }
+        $all_financials = financial::count();
 
         return view('admin.financials.edit')
-            ->with('cats', $cats)
-            ->with('financial', $financial)
-            ->with('categoryFinancials', $categoryFinancials);
+            ->with('categoryFinancials', $categoryFinancials)
+            ->with('financials', $financials)
+            ->with('all_financials', $all_financials);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Loan  $loan
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         // Validate the data
@@ -173,7 +155,7 @@ class FinancialController extends Controller
                 ->withInput();
         }
 
-        $financial = Financial::find($id);
+        $financials = Financial::find($id);
 
         //Upload the image
 
@@ -182,51 +164,45 @@ class FinancialController extends Controller
             $filename = time().'.'.$image->getClientOriginalExtension();
             $location = public_path('images/admin/'.$filename);
             Image::make($image)->resize(800, 400)->save($location);
-            $oldFilename = $financial->image;
+            $oldFilename = $financials->image;
 
             // Update
 
-            $financial->logo = $filename;
+            $financials->logo = $filename;
 
             // Delete
             Storage::delete($oldFilename);
 
         }
         else{
-            $financial->logo = 'noimage.png';
+            $financials->logo = 'noimage.png';
         }
 
         // Store in the database
 
-        $financial->name = $request->name;
-        $financial->category_id = $request->category_id;
-        $financial->url = $request->url;
-        $financial->minLoan = $request->minLoan;
-        $financial->maxLoan = $request->maxLoan;
-        $financial->minTerm = $request->minTerm;
-        $financial->maxTerm = $request->maxTerm;
-        $financial->apr = $request->apr;
-        $financial->lender = $request->lender;
-        $financial->rep = $request->rep;
-        $financial->details = $request->details;
+        $financials->name = $request->name;
+        $financials->category_id = $request->category_id;
+        $financials->url = $request->url;
+        $financials->minLoan = $request->minLoan;
+        $financials->maxLoan = $request->maxLoan;
+        $financials->minTerm = $request->minTerm;
+        $financials->maxTerm = $request->maxTerm;
+        $financials->apr = $request->apr;
+        $financials->lender = $request->lender;
+        $financials->rep = $request->rep;
+        $financials->details = $request->details;
 
-        $financial->update();
+        $financials->update();
 
         // redirect to another page
-        $financial = Financial::find($id);
+        $financials = Financial::find($id);
 
-        return redirect()->route('admin.financials.index')->with('success', 'The financial was succesfully save!');
+        return redirect()->route('admin.financials.index')->with('success', 'The financial card was succesfully save!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Loan  $loan
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
-        $financials = Financial::all();
         $financial = Financial::find($id);
 
         Storage::delete($financial->logo);
@@ -234,6 +210,6 @@ class FinancialController extends Controller
         Financial::destroy($id);
 
         return redirect()->route('admin.financials.index')
-            ->with('success', 'The financial was succesfully deleted!');
+            ->with('success', 'The financial card was succesfully deleted!');
     }
 }

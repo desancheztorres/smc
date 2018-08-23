@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\LoanCategory;
+use App\Loan;
+
 use Illuminate\Http\Request;
 use Validator;
 use Session;
@@ -91,9 +93,11 @@ class LoanCategoryController extends Controller
 
     public function destroy($id)
     {
-        $loanCategory = LoanCategory::find($id);
+        LoanCategory::where('category_id', $id)
+            ->delete();
 
-        $loanCategory::destroy($id);
+        Loan::where('category_id', $id)
+            ->delete();
 
         return redirect()->route('admin.loans.index')
             ->with('success', 'The category was succesfully deleted!');

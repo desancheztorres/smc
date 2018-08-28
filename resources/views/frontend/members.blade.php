@@ -1,21 +1,6 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-
-    <?php
-    if(isset($_GET['a88b7dcd1a9e3e17770bbaa6d7515b31a2d7e85d']) && $_GET['a88b7dcd1a9e3e17770bbaa6d7515b31a2d7e85d'] != ""){
-        $Email = $_GET['a88b7dcd1a9e3e17770bbaa6d7515b31a2d7e85d'];
-        $Password = $_GET['5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8'];
-        $userDetails = DB::table('applicants')
-            ->where('Email', '=', $Email)
-            ->where('Password','=', $Password)
-            ->get();
-        if($Email == $userDetails[0]->Email && $Password == $userDetails[0]->Password){
-            echo 'Both are the same ';
-        }else{echo 'Error';}
-    }
-    ?>
-
     <div id="Content">
         <div class="content_wrapper clearfix">
             <!-- .sections_group -->
@@ -47,29 +32,58 @@
                                 </div>
                                 <div class="column one-second column_column"><br>
                                     <p>Please fill in your login details below</p>
-                                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
+                                        @csrf
 
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">E-Mail Address</label>
+                                        <div class="form-group row">
+                                            <label for="email" class="col-sm-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+
                                             <div class="col-md-6">
-                                                <input type="email" class="form-control" name="email" value="{{ old('email') }}">
+                                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
+
+                                                @if ($errors->has('email'))
+                                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                                @endif
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Password</label>
+                                        <div class="form-group row">
+                                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+
                                             <div class="col-md-6">
-                                                <input type="password" class="form-control" name="password">
+                                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+
+                                                @if ($errors->has('password'))
+                                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                                @endif
                                             </div>
                                         </div>
 
+                                        <div class="form-group row">
+                                            <div class="col-md-6 offset-md-4">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
-                                        <div class="form-group">
-                                            <div class="col-md-6 col-md-offset-4">
-                                                <div><input type="submit" name="submit" value="Login"></div>
+                                                    <label class="form-check-label" for="remember">
+                                                        {{ __('Remember Me') }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
 
+                                        <div class="form-group row mb-0">
+                                            <div class="col-md-8 offset-md-4">
+                                                <button type="submit" class="btn btn-primary">
+                                                    {{ __('Login') }}
+                                                </button>
 
+                                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                                    {{ __('Forgot Your Password?') }}
+                                                </a>
                                             </div>
                                         </div>
                                     </form>

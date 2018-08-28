@@ -38,15 +38,27 @@
             <!-- #menu -->
             <nav id="menu" class="menu-main-menu-container">
                 <ul id="menu-main-menu" class="menu">
-
                     <li class="menu-item menu-item-has-children"><a href="{{ route('frontend.homepage') }}">Home</a> </li>
                     <li class="menu-item menu-item-has-children"><a href="{{ route('frontend.aboutus')  }}">About Search My Credit</a> </li>
                     <li class="menu-item menu-item-has-children"><a href="{{ route('frontend.applynow')  }}">Apply Now</a> </li>
                     <li class="menu-item menu-item-has-children"><a href="{{ route('frontend.members')  }}">Members</a></li>
                     <li class="menu-item menu-item-has-children"><a href="{{ route('frontend.contactus')  }}">Contact Us</a></li>
-                    <li class="menu-item menu-item-has-children"><a href="{{ route('blog.index')  }}">Blogs</a></li>
-
-
+                    <li class="menu-item menu-item-has-children"><a href="{{ route('frontend.blogs')  }}">Blogs</a></li>
+                    @auth
+                        <li class="nav-item menu-item-has-children dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                {{ Auth::user()->name }}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="" aria-labelledby="dropdownMenu1">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="{{ route('logout') }}">Separated link</a></li>
+                            </ul>
+                        </li>
+                    @endauth
                 </ul>
             </nav>
             <a class="responsive-menu-toggle" href="#"><i class='fa fa-bars'></i></a>

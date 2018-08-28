@@ -8,6 +8,9 @@
                 <div class="fancy_heading">
                     <div class="fancy_heading_wrapper has_icon">
                         <h2>{{ $blog->title }}</h2>
+                        <div class="inside">
+                            {{ $blog->subtitle }}
+                        </div>
                         <i class="fa fa-gear"></i>
                     </div>
                 </div>

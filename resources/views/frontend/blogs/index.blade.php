@@ -24,12 +24,12 @@
                <?php $i=1; ?>
                @foreach($blogs as $blog)
                        <div class="col-lg-4">
-                           <a href="{{ route('blog.detail', $blog->slug) }}">
+                           <a href="{{ route('frontend.blogs.detail', $blog->slug) }}">
                                <div class="card">
                                    <img src="{{ asset('images/admin/'.$blog->image) }}">
                                    <h4>{{ $blog->title }}</h4>
                                    <p>{{ substr(strip_tags($blog->content), 0, 200)}} {{ strlen(strip_tags($blog->content)) > 200 ? "..." : "" }}</p>
-                                   <a href="{{ route('blog.detail', $blog->slug) }}" class="blue-button">Read More</a>
+                                   <a href="{{ route('frontend.blogs.detail', $blog->slug) }}" class="blue-button">Read More</a>
                                </div>
                            </a>
                        </div>

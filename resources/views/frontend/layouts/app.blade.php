@@ -11,26 +11,26 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    @include('frontend.layouts._partials.fonts')
+    @include('frontend.layouts.partials.fonts')
 
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon"/>
 
     <!-- Styles -->
-    @include('frontend.layouts._partials.styles')
+    @include('frontend.layouts.partials.styles')
     @yield('css')
 
 </head>
 <body class="home page page-parent page-template-default template-slider color-blue layout-full-width menu-clean sticky-header">
 <div id="app">
     <div id="Wrapper">
-        @include('frontend.layouts._partials.top_bar')
-        @include('frontend.layouts._partials.header')
+        @include('frontend.layouts.partials.top_bar')
+        @include('frontend.layouts.partials.header')
 
         @yield('content')
 
-        @include('frontend.layouts._partials.footer')
+        @include('frontend.layouts.partials.footer')
 
-        @include('frontend.layouts._partials.javascripts')
+        @include('frontend.layouts.partials.javascripts')
         @yield('js')
     </div>
 </div>

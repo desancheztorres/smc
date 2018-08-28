@@ -39,5 +39,11 @@
                 Financials
             </a>
         </li>
+        <li class="{{ Request::segment(2)=="users" ? "active" : "" }}">
+            <a href="{{ route('admin.users.index') }}">
+                <i class="icon-padnote"></i>
+                Users
+            </a>
+        </li>
     </ul>
 </nav>

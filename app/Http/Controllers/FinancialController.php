@@ -117,13 +117,13 @@ class FinancialController extends Controller
 
     public function edit($id)
     {
-        $financials = Financial::find($id);
+        $financial = Financial::find($id);
         $categoryFinancials = FinancialCategory::all();
         $all_financials = financial::count();
 
         return view('admin.financials.edit')
             ->with('categoryFinancials', $categoryFinancials)
-            ->with('financials', $financials)
+            ->with('financial', $financial)
             ->with('all_financials', $all_financials);
     }
 

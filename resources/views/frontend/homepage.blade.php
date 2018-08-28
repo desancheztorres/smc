@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('frontend.layouts._partials.slider')
+    @include('frontend.layouts.partials.slider')
     <!-- #Content -->
     <div id="Content">
         <div class="content_wrapper clearfix">
